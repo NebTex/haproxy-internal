@@ -1,19 +1,10 @@
 global
-    maxconn {{or (key "service/haproxy/maxconn") 4000}}
+    maxconn 2048
     debug
-    # Recommended SSL ciphers as per https://hynek.me/articles/hardening-your-web-servers-ssl-ciphers/
-    ssl-default-bind-options no-sslv3
-    ssl-default-bind-ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
-
-    ssl-default-server-options no-sslv3
-    ssl-default-server-ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
-    tune.ssl.default-dh-param 2048
-
 
 ### HTTP(S) frontend ###
 frontend www
     option forwardfor
-    option http-server-close
     timeout connect {{or (key "service/haproxy/timeouts/connect") "10000ms"}}
     timeout client {{or (key "service/haproxy/timeouts/client") "100000ms"}}
     timeout server {{or (key "service/haproxy/timeouts/server") "100000ms"}}
